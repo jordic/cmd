@@ -12,13 +12,16 @@ import (
 var Snippets = map[string]string {
 	"co": "{%% %s %%}",
 	"va": "{{ %s }}",
-		
+	"t": "<%[1]s><%[1]s/>",
+	"div": "<div>\n%s\n</div>",
+	"p": "<p>%s</p>",
+	"span": "<span>%s</span>",
 }
 
 // Returns the {% selection %} in a acme window
 func main() {
 
-	fmt.Println("Runing...")
+	//fmt.Println("Runing...")
 
 	if len(os.Args) != 2 {
 		fmt.Println("Wrong params")
@@ -60,7 +63,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		selection = string(body[a:b])
+		selection = string(body)[a:b]
 	}
 	
 	// @TODO if seleciton is blank, put the cursor on the middle of the snippet.
