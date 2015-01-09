@@ -12,16 +12,22 @@ import (
 var Snippets = map[string]string {
 	"co": "{%% %s %%}",
 	"va": "{{ %s }}",
-	"t": "<%[1]s><%[1]s/>",
+	"t": "<%[1]s></%[1]s>",
 	"div": "<div>\n%s\n</div>",
 	"p": "<p>%s</p>",
 	"span": "<span>%s</span>",
+	"//": "/* %s */",
 }
 
-// Returns the {% selection %} in a acme window
-func main() {
+// Small snippet manager for acme... 
+// For the moment, snippets are compiled inside the bin
+// go install github.com/jordic/cmd/snippet/
+// for calling snippets b3 on snippet co, if u have 
+// selection, this will be available on the snippet.
+// as ex: "snippet t" with cursor selected will replace cursor 
+// for <cursor><cursor/>
 
-	//fmt.Println("Runing...")
+func main() {
 
 	if len(os.Args) != 2 {
 		fmt.Println("Wrong params")
@@ -49,29 +55,45 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	// Read current cursor position
 	a, b, _ := wfile.ReadAddr()
-	//fmt.Print(a, b)
 	
+	//fmt.Print(a, b)
 	// get user selection
 	var selection string
 	if a == b {
 		selection = ""
 	} else {
-		// @TODO Look for a more eficient way of getting selection
-		body, err := wfile.ReadAll("body")
+		data, err := wfile.ReadAll("data")
 		if err != nil {
 			log.Fatal(err)
 		}
-		selection = string(body)[a:b]
+		selection = string(data[0:(b-a)])
+		//fmt.Println(string(data[0:(b-a)]))
+		
+		// restore address after read.
+		err = wfile.Addr("#%d,#%d", a, b)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	
-	// @TODO if seleciton is blank, put the cursor on the middle of the snippet.
-	_, err = wfile.Write("data", []byte(fmt.Sprintf(snippet, selection)))
+	result := fmt.Sprintf(snippet, selection)
+	_, err = wfile.Write("data", []byte(result))
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+	// Try to put cursor on middle snippet 
+	// if empty selection
+	if selection == "" {
+		c := a + len(result)/2
+		err = wfile.Addr("#%d,#%d", c, c)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_ = wfile.Ctl("dot=addr\n")
+		
+	}
 	
 
 }
