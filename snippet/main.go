@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"code.google.com/p/goplan9/plan9/acme"
 	"fmt"
 	"os"
@@ -16,7 +17,8 @@ var Snippets = map[string]string {
 	"div": "<div>\n%s\n</div>",
 	"p": "<p>%s</p>",
 	"span": "<span>%s</span>",
-	"//": "/* %s */",
+	"/*": "/* %s */",
+	"//": "// %s",
 }
 
 // Small snippet manager for acme... 
@@ -26,14 +28,22 @@ var Snippets = map[string]string {
 // selection, this will be available on the snippet.
 // as ex: "snippet t" with cursor selected will replace cursor 
 // for <cursor><cursor/>
+// If u want to contribute, or share your snippets, just fork it
+//
 
 func main() {
 
 	if len(os.Args) != 2 {
-		fmt.Println("Wrong params")
-		os.Exit(1)
+		fmt.Println("Wrong params. Usage")
+		// Show list of snippets suitable for coping in command bar
+		var cmds bytes.Buffer
+		for k, _ := range Snippets {
+        	cmds.WriteString(fmt.Sprintf("'sn %s', ", k))
+    	}
+    	fmt.Println(cmds.String())
+		os.Exit(2)
 	}
-	snippet := "Test"
+	var snippet string
 	command := os.Args[1]
 	if val, ok := Snippets[command]; ok == false {
     	fmt.Println("Snippet not found")
