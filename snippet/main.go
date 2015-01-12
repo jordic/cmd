@@ -19,6 +19,9 @@ var Snippets = map[string]string {
 	"span": "<span>%s</span>",
 	"/*": "/* %s */",
 	"//": "// %s",
+	"trans": "{% trans '%s' %}",
+	"ha": "['%s']",
+	"inc": "{% include '%s' %}",
 }
 
 // Small snippet manager for acme... 
@@ -35,7 +38,7 @@ func main() {
 
 	if len(os.Args) != 2 {
 		fmt.Println("Wrong params. Usage")
-		// Show list of snippets suitable for coping in command bar
+		// Show list of snippets suitable for coping in command ba
 		var cmds bytes.Buffer
 		for k, _ := range Snippets {
         	cmds.WriteString(fmt.Sprintf("'sn %s', ", k))
