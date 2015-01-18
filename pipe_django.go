@@ -34,8 +34,9 @@ func main() {
 		if(media_dir != "") {
 			out = strings.Replace(out, "/media", media_dir, -1)
 		}
-		if		
-		fmt.Println(out)
+		if is_image.MatchString(out) != true {		
+			fmt.Println(out)
+		}
 	}
 	
 	if err := scanner.Err(); err != nil {
