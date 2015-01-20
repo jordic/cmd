@@ -106,12 +106,12 @@ func main() {
 	w2.Ctl("cleartag")
 	w2.Ctl("noscroll")
 	w2.Fprintf("tag", fmt.Sprintf(" fsearch %s", query))
-	err = w2.Addr("#%d,#%d", 0, 0)
+	err = w2.Addr("#%d", 0)
 	if err != nil {
 		log.Fatal(err)
 	}
 	_ = w2.Ctl("dot=addr\n")
-
+	_ = w2.Ctl("show")
 }
 
 // AllFiles match all files..
