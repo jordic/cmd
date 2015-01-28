@@ -2,8 +2,7 @@ package main
 
 // filter command for acme windows
 // filters CURRENT window line by line matching (selection or param)
-// go build wf.go cp wf /Users/jordi/bin
-
+// go install github.com/jordic/cmd/wf/
 
 import (
 	"bufio"
@@ -12,9 +11,9 @@ import (
 	"github.com/jordic/fuzzyfs"
 	"log"
 	"os"
-	"strconv"
 	"regexp"
-	"fmt"
+	"strconv"
+	"strings"
 )
 
 var llista *fuzzyfs.DirList
@@ -71,25 +70,26 @@ func main() {
 		pattern = os.Args[1]
 	}
 
-	
 	t, err := win.ReadAll("body")
 	if err != nil {
 		log.Fatal("Can't read window contents")
 	}
-	
+
 	win.Addr(",")
 	win.Write("data", nil)
-	
-	
+
 	scanner := bufio.NewScanner(bytes.NewBuffer(t))
 	re := regexp.MustCompile(pattern)
+	output := []string{}
 	for scanner.Scan() {
 		line := scanner.Bytes()
 		if re.Match(line) {
-			win.Write("body", []byte(fmt.Sprintf("%s\n", line)))
+			//win.Write("body", []byte(fmt.Sprintf("%s\n", line)))
+			output = append(output, string(line))
 		}
 	}
-
+	win.Ctl("dirty")
+	win.Write("body", []byte(strings.Join(output, "\n")))
 
 	err = win.Addr("#%d", 0)
 	if err != nil {
