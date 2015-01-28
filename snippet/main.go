@@ -31,7 +31,7 @@ var Snippets = map[string]string{
 // as ex: "snippet t" with cursor selected will replace cursor
 // for <cursor><cursor/>
 // If u want to contribute, or share your snippets, just fork it
-//
+// 
 
 func main() {
 
@@ -68,23 +68,28 @@ func main() {
 		log.Fatal(err)
 	}
 	// Read current cursor position
-	a, b, _ := wfile.ReadAddr()
+	q0, q1, _ := wfile.ReadAddr()
 
-	//fmt.Print(a, b)
+	var a, b int
+
 	// get user selection
 	var selection string
-	if a == b {
+	if q0 == q1 {
 		selection = ""
 	} else {
 		data, err := wfile.ReadAll("data")
 		if err != nil {
 			log.Fatal(err)
 		}
-		selection = string(data[0:(b - a)])
-		//fmt.Println(string(data[0:(b-a)]))
-
+		a = q0
+		// to locate second byte offset must check for
+		// runes inside string
+		b = runeOffset2ByteOffset(data, q1)
+		
+		selection = string(data[0:(b - q0)])
+		//fmt.Println(selection)
 		// restore address after read.
-		err = wfile.Addr("#%d,#%d", a, b)
+		err = wfile.Addr("#%d,#%d", q0, q1)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -107,4 +112,16 @@ func main() {
 
 	}
 
+}
+
+// Taken from code.google.com/p/rog-go/exp/cmd/godef/acme.go
+func runeOffset2ByteOffset(b []byte, off int) int {
+	r := 0
+	for i, _ := range string(b) {
+		if r == off {
+			return i
+		}
+		r++
+	}
+	return len(b)
 }

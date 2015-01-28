@@ -14,6 +14,7 @@ import (
 	"os"
 	"strconv"
 	"regexp"
+	"fmt"
 )
 
 var llista *fuzzyfs.DirList
@@ -78,13 +79,14 @@ func main() {
 	
 	win.Addr(",")
 	win.Write("data", nil)
-
+	
+	
 	scanner := bufio.NewScanner(bytes.NewBuffer(t))
 	re := regexp.MustCompile(pattern)
 	for scanner.Scan() {
 		line := scanner.Bytes()
 		if re.Match(line) {
-			win.Write("body", line)
+			win.Write("body", []byte(fmt.Sprintf("%s\n", line)))
 		}
 	}
 
