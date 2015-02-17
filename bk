@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /Users/jordi/bookmarks | grep -i $1

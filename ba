@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#
+
+if [ -z "$1" ]
+  then
+    echo -e $(pwd) >> /Users/jordi/bookmarks
+else
+	 echo -e $1 >> /Users/jordi/bookmarks
+fi

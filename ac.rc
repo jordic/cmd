@@ -1,0 +1,13 @@
+#!/usr/local/plan9/bin/rc
+
+SHELL=$PLAN9/bin/rc
+EDITOR=E
+PAGER=cat
+GIT_EDITOR=E
+GIT_PAGER=cat
+
+mousescrollsize=5
+path=($home/acme $path)
+plumber 
+#/mnt/font/Menlo-Regular/12a/font
+acme  -f /mnt/font/Menlo-Regular/12a/font -F /mnt/font/Menolo-Regular/12a/font  -a $*

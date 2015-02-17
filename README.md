@@ -1,12 +1,16 @@
 # cmd
 
-Random scripts Used during my daily interaction with acme.
+Random scripts i use  during my daily interaction with acme.
 
 snippet/ 
 	Is a basic snippet manager
 
 GetSel/
 	My firsts interactions with acme api... ( Not usefull)
+
+fsearch.go, fdir.go
+	Deprecated in favour of ff... Nice part of acme, is that everyday 
+	I learn something new!
 
 gl
 	Is a wrappwer to git log ( Just for viewing latest commits inside a acme window)
@@ -28,3 +32,17 @@ fsearch
 guide
 	Holds my basic acme guide. Usually i have it opened in a window.
 	
+ba
+	Cats the current path to a bookmarks file, if nothing is passed
+	If a param is passed cats it
+
+bk
+	Show my bookmark file. If a param is passed it greps it.
+	
+ac.rc
+	Script used for starting acme.
+		Sets my default editor... Just for git commiting from inside acme
+		mousescroll ... number of lines each scroll with mouse do
+		starts the plumber.. 
+		and starts acme, with a nice font
+		
