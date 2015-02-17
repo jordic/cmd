@@ -1,0 +1,34 @@
+:+- Select current line
+:+ Next line
+:- Prev line
+:., Select des de cursor a final
+:,. Select des de cursor a inici
+Edit -+ s/^/	/ Tab current line
+Edit -+ s/^	//
+|a+
+Edit s/^/	/g Tab
+Edit s/^	//g Untab
+Edit s/^	/    /g tabs2spaces
+Edit s/^    /	/g spaces2tabs
+
+Edit , s/\.html//g
+Edit , s/src="/src="http:\/\/static\.xxx\.com\/mkt\/xx\//g
+New /Users/jordi/test2Edit 
+
+ag --vimgrep -i --nocolor 'xxx' .
+	Finds on files inside current folder xxx. Output formatted for acme.
+
+Other super usefull commands you can use.
+
+apipe from roger peppe's
+	https://code.google.com/p/rog-go/source/browse/#hg%2Fcmd%2Fapipe
+	Pips content of acme window on the command provided by script. Usually I use
+	this way:
+		apipe gofmt
+		apipe jsfmt
+
+godef
+	Is another util command
+	http://godoc.org/code.google.com/p/rog-go/exp/cmd/godef
+	
+Usually I keep a bookmarks file on my home, with all relevants ( *Scratch ) files for porjects and greps it, for getting the correct wants ( to have the link to plumb) With no more than two or three clicks I move everywhere of mine harddrive.

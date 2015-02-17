@@ -1,0 +1,26 @@
+#!/usr/bin/env python 
+
+import paramiko
+import sys
+
+hostname = '' 
+port = 22 
+username = ''
+
+
+pkey_file = '~/.ssh/id_rsa'
+
+if __name__ == "__main__": 
+    
+    remote_repo = sys.argv[1]
+    
+    key = paramiko.RSAKey.from_private_key_file(pkey_file) 
+    s = paramiko.SSHClient() 
+    s.load_system_host_keys() 
+    s.connect(hostname, port, username, pkey=key) 
+    
+    stdin, stdout, stderr = s.exec_command('mkdir /home/source/%s.git' % remote_repo  )
+    print stdout.read()
+    stdin, stdout, stderr = s.exec_command('cd /home/source/%s.git && git --bare init' % remote_repo  )
+    print stdout.read()
+    s.close()

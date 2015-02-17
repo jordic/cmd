@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+	then
+		num=10
+else
+	num=$1
+fi
+
+git log -$num '--pretty=format:%ci %h >> %s'
