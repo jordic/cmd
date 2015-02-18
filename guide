@@ -11,9 +11,17 @@ Edit s/^	//g Untab
 Edit s/^	/    /g tabs2spaces
 Edit s/^    /	/g spaces2tabs
 
+Edit -+x/^/i/	/ Tab at begining line
+
+
 Edit , s/\.html//g
 Edit , s/src="/src="http:\/\/static\.xxx\.com\/mkt\/xx\//g
 New /Users/jordi/test2Edit 
+
+Edit X/\.html$/ ,s/<style>/<style>body { background-color:#; }/g
+	Replaces content on all opened files matching .html
+Edit X/\.html$/ /<body/i/hola/
+	Append hola to <body match on all .html files opened
 
 ag --vimgrep -i --nocolor 'xxx' .
 	Finds on files inside current folder xxx. Output formatted for acme.
