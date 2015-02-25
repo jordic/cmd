@@ -77,17 +77,19 @@ func main() {
 	if q0 == q1 {
 		selection = ""
 	} else {
-		data, err := wfile.ReadAll("data")
+		
+		data, err := wfile.ReadAll("body")
 		if err != nil {
 			log.Fatal(err)
 		}
-		a = q0
+		a = q0	
 		// to locate second byte offset must check for
 		// runes inside string
 		b = runeOffset2ByteOffset(data, q1)
+		a = runeOffset2ByteOffset(data, q0)
 		
-		selection = string(data[0:(b - q0)])
-		//fmt.Println(selection)
+		selection = string(data[a:b])
+		
 		// restore address after read.
 		err = wfile.Addr("#%d,#%d", q0, q1)
 		if err != nil {
@@ -103,7 +105,7 @@ func main() {
 	// Try to put cursor on middle snippet
 	// if empty selection
 	if selection == "" {
-		c := a + len(result)/2
+		c := q0 + len(result)/2
 		err = wfile.Addr("#%d,#%d", c, c)
 		if err != nil {
 			log.Fatal(err)
