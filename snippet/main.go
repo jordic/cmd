@@ -15,12 +15,19 @@ var Snippets = map[string]string{
 	"t":     "<%[1]s></%[1]s>",
 	"div":   "<div>\n%s\n</div>",
 	"p":     "<p>%s</p>",
+	"h1":	 "<h1>%s</h1>",
+	"h2": 	 "<h2>%s</h2>",
+	"h3":	 "<h3>%s<h3>",
+	"b":	 "<b>%s</b>",
+	"a": 	 "<a href=''>%s</a>",
 	"span":  "<span>%s</span>",
 	"/*":    "/* %s */",
 	"//":    "// %s",
 	"trans": "{%% trans \"%s\" %%}",
 	"ha":    "['%s']",
 	"inc":   "{%% include \"%s\" %%}",
+	"bt": "<%% %s %%>",
+	"bc": "<%%= %s %%>",
 }
 
 // Small snippet manager for acme...
