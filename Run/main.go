@@ -1,6 +1,9 @@
 // Process watcher and reloader for acme
 // Inspired in 9fans.net/go/acme/Watch
-// adapted to work with servers that had been started..
+// adapted to work starting servers.
+// Currently works starting a django runsrever, 
+// Run env/bin/python
+// Or Run inside a go package, for runing it
 package main
 
 import (
@@ -8,6 +11,7 @@ import (
 	"flag"
 
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -29,26 +33,20 @@ var args []string
 var needrun = make(chan int, 1)
 var watcher *fsnotify.Watcher
 var pwd string
+var lastcmd *exec.Cmd
 
 const (
 	ModeGo = iota
 	ModePython
-	ModeUnknown
 )
 
-var Mode = ModeUnknown
+var Mode = ModeGo
 
 func main() {
 	flag.Parse()
 	args = flag.Args()
 
-	if len(args) < 1 {
-		loadFileList()
-	}
-
-	if len(args)>2 && strings.HasSuffix(args[2], ".go") {
-		Mode = ModeGo
-	} else if strings.Contains(args[0], "python") {
+	if len(args) == 1 && strings.Contains(args[0], "python") {
 		Mode = ModePython
 		if len(args) == 1 {
 			args = append(args, "manage.py")
@@ -70,7 +68,7 @@ func main() {
 	win.Fprintf("tag", "Reload ")
 
 	// Filesystem watcher
-	if Mode == ModeGo || Mode == ModeUnknown {
+	if Mode == ModeGo {
 		watcher, err = fsnotify.NewWatcher()
 		if err != nil {
 			log.Fatal(err)
@@ -81,11 +79,9 @@ func main() {
 
 	// @todo recursive watch subdirs
 	if Mode == ModeGo {
-		for _, ff := range args[2:] {
+		for _, ff := range loadWatchFileList() {
 			watcher.Add(ff)
 		}
-	} else if Mode == ModeUnknown {
-		watcher.Add(pwd)
 	}
 
 	needrun <- 1
@@ -127,6 +123,10 @@ func events() {
 				if Mode == ModePython {
 					KillForkedProcess()
 				}
+				if lastcmd != nil {
+					lastcmd.Process.Kill()
+					lastcmd.Wait()
+				}
 				win.Ctl("delete")
 			}
 		}
@@ -136,7 +136,7 @@ func events() {
 }
 
 func runit() {
-	var lastcmd *exec.Cmd
+	//var lastcmd *exec.Cmd
 	var q = make(chan int, 2)
 	//log.Println("needru out")
 
@@ -161,8 +161,28 @@ func runit() {
 				q <- 1
 			}
 			lastcmd = nil
+			var cmd *exec.Cmd
+			if Mode == ModeGo {
+				// frist we need to build the exec
+				win.Addr(",")
+				win.Write("data", nil)
+				win.Ctl("clean")
+				win.Write("body", []byte("Building exec..."))
+				tmpfile := tempfile()
+				cm1 := exec.Command("go", "build", "-o", tmpfile)
+				if out, err := cm1.CombinedOutput(); err != nil {
+					win.Fprintf("body", "%s: %s\n", strings.Join(args, " "), err)
+					win.Write("body", out)
+					continue
+				}
 
-			cmd := exec.Command(args[0], args[1:]...)
+				win.Write("body", []byte("Running exec..."))
+				cmd = exec.Command(tmpfile, args...)
+				cmd.Dir = pwd
+
+			} else {
+				cmd = exec.Command(args[0], args[1:]...)
+			}
 
 			stdout, _ := cmd.StdoutPipe()
 			stderr, _ := cmd.StderrPipe()
@@ -207,10 +227,13 @@ func runit() {
 
 }
 
+// Django dev server, forks itself when runing.
+// After killing, the main process, still the auto_reloader is up,
+// and must be killed to handle next reload.
 func KillForkedProcess() {
 	plist, _ := ps.Processes()
 	for _, p := range plist {
-		//log.Println(p.Executable())
+		log.Printf("%s %d %d", p.Executable(), p.Pid(), p.PPid())
 		if strings.Contains(p.Executable(), "python") {
 			err := syscall.Kill(p.Pid(), syscall.SIGKILL)
 			if err != nil {
@@ -220,7 +243,7 @@ func KillForkedProcess() {
 	}
 }
 
-func loadFileList() {
+func loadWatchFileList() []string {
 	pwd, _ = os.Getwd()
 	f, err := os.Open(pwd)
 	defer f.Close()
@@ -228,14 +251,22 @@ func loadFileList() {
 		panic(err)
 	}
 	files, _ := f.Readdir(-1)
-	args = []string{"go", "run"}
+	watchlist := make([]string, 0)
+
 	for _, k := range files {
 		name := k.Name()
 		if strings.HasSuffix(name, ".go") {
 			if !strings.Contains(name, "test") {
-				args = append(args, name)
+				watchlist = append(watchlist, name)
 			}
 		}
 	}
+	return watchlist
+}
 
+func tempfile() string {
+	f, _ := ioutil.TempFile("", "run-")
+	f.Close()
+	os.Remove(f.Name())
+	return f.Name()
 }
