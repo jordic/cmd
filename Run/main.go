@@ -4,6 +4,7 @@
 // Currently works starting a django runsrever, 
 // Run env/bin/python
 // Or Run inside a go package, for runing it
+// @todo remove builded files
 package main
 
 import (
@@ -35,6 +36,11 @@ var watcher *fsnotify.Watcher
 var pwd string
 var lastcmd *exec.Cmd
 
+var (
+	sc = flag.String("sc", "runserver_plus", "Python Mode runserver")
+)
+
+
 const (
 	ModeGo = iota
 	ModePython
@@ -46,12 +52,12 @@ func main() {
 	flag.Parse()
 	args = flag.Args()
 
-	if len(args) == 1 && strings.Contains(args[0], "python") {
+	if len(args) >= 1 && strings.Contains(args[0], "python") {
 		Mode = ModePython
-		if len(args) == 1 {
+		
 			args = append(args, "manage.py")
-			args = append(args, "runserver_plus")
-		}
+			args = append(args, *sc)
+		
 	}
 
 	var err error
@@ -233,7 +239,7 @@ func runit() {
 func KillForkedProcess() {
 	plist, _ := ps.Processes()
 	for _, p := range plist {
-		log.Printf("%s %d %d", p.Executable(), p.Pid(), p.PPid())
+		//log.Printf("%s %d %d", p.Executable(), p.Pid(), p.PPid())
 		if strings.Contains(p.Executable(), "python") {
 			err := syscall.Kill(p.Pid(), syscall.SIGKILL)
 			if err != nil {
