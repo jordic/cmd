@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"code.google.com/p/goplan9/plan9/acme"
+	"9fans.net/go/acme"
 	"fmt"
 	"log"
 	"os"
@@ -28,6 +28,7 @@ var Snippets = map[string]string{
 	"inc":   "{%% include \"%s\" %%}",
 	"bt": "<%% %s %%>",
 	"bc": "<%%= %s %%>",
+	"static": "{{ STATIC_URL }}%s",
 }
 
 // Small snippet manager for acme...

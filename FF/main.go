@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"fmt"
+	"sort"
 
 	"9fans.net/go/acme"
 	"github.com/dgryski/go-fuzzstr"
@@ -23,6 +24,16 @@ var (
 	Index    *fuzzstr.Index
 )
 
+
+type DocSort []fuzzstr.Posting
+func (a DocSort) Len() int           { return len(a) }
+func (a DocSort) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a DocSort) Less(i, j int) bool { return a[i].Pos < a[j].Pos }
+
+type NullWriter int
+func (NullWriter) Write([]byte) (int, error) { return 0, nil }
+
+
 func main() {
 
 	pwd, _ = os.Getwd()
@@ -33,8 +44,67 @@ func main() {
 	}
 	win.Name(pwd + "/+Search")
 	win.Ctl("clean")
+	win.Fprintf("tag", "Reload ")
+	
+	log.SetOutput(new(NullWriter))
+	
+	PopulateFileList()
+	
+	go events()
+	
+	for {
+		time.Sleep(100 * time.Millisecond)
+	}
+
+}
+
+func events() {
+	for e := range win.EventChan() {
+		switch e.C2 {
+		case 'x', 'X': // execute
+			if string(e.Text) == "Del" {
+				win.Ctl("delete")
+			}
+			
+			if string(e.Text) == "Reload" {
+				win.Addr(",")
+				win.Write("data", nil)
+				win.Ctl("clean")
+				list = make([]string, 1024)
+				PopulateFileList()
+				continue
+			}
+			
+			result := Index.Query( string(e.Text) )
+			
+			WriteResults(result)		
+			continue		
+		}
+		win.WriteEvent(e)
+	}
+	os.Exit(0)
+
+}
+
+
+func WriteResults(result DocSort) {
+	win.Addr(",")
+	win.Write("data", nil)
 	
 	
+	sort.Sort(result)
+	
+	for _, p := range result {
+		win.Write("body", []byte(list[p.Doc] + "\n"))
+		log.Printf("total files %d %s", p.Pos, list[p.Doc])
+	}
+	
+	win.Ctl("clean")
+	
+}
+
+func PopulateFileList() {
+
 	// Populate file list
 	filepath.Walk(pwd, func(path string, info os.FileInfo, err error) error {
 
@@ -57,54 +127,14 @@ func main() {
 			}
 		}
 
-		//log.Println(path)
+		log.Println(path)
 		list = append(list, strings.TrimPrefix(path, pwd+"/"))
-		//win.Write("body", []byte(strings.TrimPrefix(path, pwd+"/")+"\n"))
+		
 		return nil
 
 	})
-	
-	
+
 	Index = fuzzstr.NewIndex(list)
+	win.Write("body", []byte(fmt.Sprintf("Total Files %d. Exec your query", len(list))))
 
-	
-	win.Write("body", []byte(fmt.Sprintf("Total Files %d", len(list))))
-	
-	go events()
-	
-	for {
-		time.Sleep(100 * time.Millisecond)
-	}
-
-}
-
-func events() {
-	for e := range win.EventChan() {
-		switch e.C2 {
-		case 'x', 'X': // execute
-			if string(e.Text) == "Del" {
-				win.Ctl("delete")
-			}
-			log.Println("Query: ", string(e.Text))
-			result := Index.Query( string(e.Text) )
-			
-			WriteResults(result)		
-			continue		
-		}
-		win.WriteEvent(e)
-	}
-	os.Exit(0)
-
-}
-
-
-func WriteResults(result []fuzzstr.Posting) {
-	win.Addr(",")
-	win.Write("data", nil)
-	win.Ctl("clean")
-	log.Println("total files", len(result))
-	for _, p := range result {
-		win.Write("body", []byte(list[p.Doc] + "\n"))
-	}
-	
 }
