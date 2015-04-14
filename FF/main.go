@@ -1,18 +1,26 @@
+// This command is a fast file searcher for acme..
+// Just hit FF on a folder... Exec querys ( middle click a word )
+// To get results.
+// Index is stored in RAM.
+// @todo Handle file exclusions as an argument.
+// The code is writed quick and dirty... some ugly practices but, works ;)
 package main
 
 // go install github.com/jordic/cmd/FF
 
 import (
+	"bytes"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
-	"fmt"
 	"sort"
+	"strings"
+
+	"time"
 
 	"9fans.net/go/acme"
 	"github.com/dgryski/go-fuzzstr"
-	"time"
 )
 
 var (
@@ -24,15 +32,21 @@ var (
 	Index    *fuzzstr.Index
 )
 
-
 type DocSort []fuzzstr.Posting
-func (a DocSort) Len() int           { return len(a) }
-func (a DocSort) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a DocSort) Less(i, j int) bool { return a[i].Pos < a[j].Pos }
+
+func (a DocSort) Len() int      { return len(a) }
+func (a DocSort) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a DocSort) Less(i, j int) bool {
+	if a[i].Pos == a[j].Pos {
+		return len(list[a[i].Doc]) < len(list[a[j].Doc])
+	}
+	return a[i].Pos < a[j].Pos
+
+}
 
 type NullWriter int
-func (NullWriter) Write([]byte) (int, error) { return 0, nil }
 
+func (NullWriter) Write([]byte) (int, error) { return 0, nil }
 
 func main() {
 
@@ -45,15 +59,15 @@ func main() {
 	win.Name(pwd + "/+Search")
 	win.Ctl("clean")
 	win.Fprintf("tag", "Reload ")
-	
+
 	log.SetOutput(new(NullWriter))
-	
+
 	PopulateFileList()
-	
+
 	go events()
-	
+
 	for {
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 
 }
@@ -65,7 +79,7 @@ func events() {
 			if string(e.Text) == "Del" {
 				win.Ctl("delete")
 			}
-			
+
 			if string(e.Text) == "Reload" {
 				win.Addr(",")
 				win.Write("data", nil)
@@ -74,11 +88,13 @@ func events() {
 				PopulateFileList()
 				continue
 			}
-			
-			result := Index.Query( string(e.Text) )
-			
-			WriteResults(result)		
-			continue		
+
+			result := Index.Query(string(e.Text))
+			if len(result) > 100 {
+				result = result[:100]
+			}
+			WriteResults(result)
+			continue
 		}
 		win.WriteEvent(e)
 	}
@@ -86,21 +102,22 @@ func events() {
 
 }
 
-
 func WriteResults(result DocSort) {
 	win.Addr(",")
 	win.Write("data", nil)
-	
-	
+
 	sort.Sort(result)
-	
+	var buff bytes.Buffer
 	for _, p := range result {
-		win.Write("body", []byte(list[p.Doc] + "\n"))
+		buff.Write([]byte(list[p.Doc] + "\n"))
 		log.Printf("total files %d %s", p.Pos, list[p.Doc])
 	}
-	
+	win.Write("body", buff.Bytes() )
+
 	win.Ctl("clean")
-	
+	_ = win.Addr("0,0")
+	_ = win.Ctl("dot=addr\n")
+
 }
 
 func PopulateFileList() {
@@ -129,12 +146,12 @@ func PopulateFileList() {
 
 		log.Println(path)
 		list = append(list, strings.TrimPrefix(path, pwd+"/"))
-		
+
 		return nil
 
 	})
 
 	Index = fuzzstr.NewIndex(list)
-	win.Write("body", []byte(fmt.Sprintf("Total Files %d. Exec your query", len(list))))
-
+	win.Write("body", []byte(fmt.Sprintf(">>>Total Files %d. Exec your query", len(list))))
+	win.Ctl("clean")
 }
