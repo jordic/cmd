@@ -90,8 +90,8 @@ func events() {
 			}
 
 			result := Index.Query(string(e.Text))
-			if len(result) > 100 {
-				result = result[:100]
+			if len(result) > 30 {
+				result = result[:30]
 			}
 			WriteResults(result)
 			continue
@@ -108,6 +108,8 @@ func WriteResults(result DocSort) {
 
 	sort.Sort(result)
 	var buff bytes.Buffer
+	buff.WriteString("\n\n")
+	
 	for _, p := range result {
 		buff.Write([]byte(list[p.Doc] + "\n"))
 		log.Printf("total files %d %s", p.Pos, list[p.Doc])
@@ -115,7 +117,7 @@ func WriteResults(result DocSort) {
 	win.Write("body", buff.Bytes() )
 
 	win.Ctl("clean")
-	_ = win.Addr("0,0")
+	_ = win.Addr("#0,#0")
 	_ = win.Ctl("dot=addr\n")
 
 }
@@ -152,6 +154,8 @@ func PopulateFileList() {
 	})
 
 	Index = fuzzstr.NewIndex(list)
-	win.Write("body", []byte(fmt.Sprintf(">>>Total Files %d. Exec your query", len(list))))
+	win.Write("body", []byte(fmt.Sprintf("\n\n>>>Total Files %d. Exec your query", len(list))))
+	win.Addr("#0,#0")
+	win.Ctl("dot=addr\n")
 	win.Ctl("clean")
 }
