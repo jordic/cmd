@@ -9,6 +9,7 @@ package main
 // go install github.com/jordic/cmd/FF
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"log"
@@ -17,7 +18,7 @@ import (
 	"sort"
 	"strings"
 
-	"time"
+	//"time"
 
 	"9fans.net/go/acme"
 	"github.com/dgryski/go-fuzzstr"
@@ -27,8 +28,10 @@ var (
 	list     = make([]string, 1024)
 	pwd      string
 	win      *acme.Win
-	Prefixes = []string{".", "env", "cache", "bower", "node"}
-	Suffixes = []string{".pyc", "env", "cache"}
+	Prefixes = []string{".", "env", "cache", "bower", "node", "upload"}
+	Suffixes = []string{".pyc", "env", "cache", ".jpg", ".png"}
+	Excludes = []string{}
+	Queries  = []string{}
 	Index    *fuzzstr.Index
 )
 
@@ -62,17 +65,9 @@ func main() {
 
 	log.SetOutput(new(NullWriter))
 
+	LoadExcludePatterns()
 	PopulateFileList()
 
-	go events()
-
-	for {
-		time.Sleep(500 * time.Millisecond)
-	}
-
-}
-
-func events() {
 	for e := range win.EventChan() {
 		switch e.C2 {
 		case 'x', 'X': // execute
@@ -89,16 +84,20 @@ func events() {
 				continue
 			}
 
+			q := string(e.Text)
+			if false == InSlice(Queries, q) {
+				Queries = append(Queries, q)
+			}
 			result := Index.Query(string(e.Text))
-			if len(result) > 30 {
-				result = result[:30]
+			if len(result) > 50 {
+				result = result[:50]
 			}
 			WriteResults(result)
 			continue
 		}
+		log.Println(e)
 		win.WriteEvent(e)
 	}
-	os.Exit(0)
 
 }
 
@@ -109,12 +108,12 @@ func WriteResults(result DocSort) {
 	sort.Sort(result)
 	var buff bytes.Buffer
 	buff.WriteString("\n\n")
-	
+
 	for _, p := range result {
 		buff.Write([]byte(list[p.Doc] + "\n"))
 		log.Printf("total files %d %s", p.Pos, list[p.Doc])
 	}
-	win.Write("body", buff.Bytes() )
+	win.Write("body", buff.Bytes())
 
 	win.Ctl("clean")
 	_ = win.Addr("#0,#0")
@@ -146,6 +145,15 @@ func PopulateFileList() {
 			}
 		}
 
+		for i := range Excludes {
+			if strings.HasSuffix(name, Excludes[i]) {
+				if info.IsDir() {
+					return filepath.SkipDir
+				}
+				return nil
+			}
+		}
+
 		log.Println(path)
 		list = append(list, strings.TrimPrefix(path, pwd+"/"))
 
@@ -154,8 +162,40 @@ func PopulateFileList() {
 	})
 
 	Index = fuzzstr.NewIndex(list)
-	win.Write("body", []byte(fmt.Sprintf("\n\n>>>Total Files %d. Exec your query", len(list))))
+	win.Write("body", []byte(fmt.Sprintf("\n\n>>>Total Files %d. Exec your query\n", len(list))))
+	if len(Queries) > 0 {
+		l := strings.Join(Queries, "\n")
+		win.Write("body", []byte(l))
+	}
+
 	win.Addr("#0,#0")
 	win.Ctl("dot=addr\n")
 	win.Ctl("clean")
+}
+
+// touch .exclude
+
+func LoadExcludePatterns() {
+	if _, err := os.Stat(".exclude"); err == nil {
+
+		file, err := os.Open(".exclude")
+		if err != nil {
+			fmt.Println("Error loading file")
+		}
+		sc := bufio.NewScanner(file)
+		for sc.Scan() {
+			Excludes = append(Excludes, sc.Text())
+		}
+
+	}
+
+}
+
+func InSlice(slice []string, s string) bool {
+	for _, k := range slice {
+		if k == s {
+			return true
+		}
+	}
+	return false
 }

@@ -19,6 +19,8 @@ var Snippets = map[string]string{
 	"h2": 	 "<h2>%s</h2>",
 	"h3":	 "<h3>%s<h3>",
 	"b":	 "<b>%s</b>",
+	"td": 	 "<td>%s</td>",
+	"tr": 	 "<tr>\n%s\n</tr>",
 	"a": 	 "<a href=''>%s</a>",
 	"span":  "<span>%s</span>",
 	"/*":    "/* %s */",
@@ -29,6 +31,7 @@ var Snippets = map[string]string{
 	"bt": "<%% %s %%>",
 	"bc": "<%%= %s %%>",
 	"static": "{{ STATIC_URL }}%s",
+	"if": "{%% if %%}%s{%% endif %%}",
 }
 
 // Small snippet manager for acme...
