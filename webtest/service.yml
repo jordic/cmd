@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: tester
+  name: tester
+spec:
+  #type: LoadBalancer
+  type: NodePort
+  ports:
+  - nodePort: 31960
+    port: 5000
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    name: tester

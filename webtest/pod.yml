@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: tester-r2
+spec:
+  replicas: 1
+  selector:
+    name: tester
+    version: r2
+  template:
+    metadata:
+      labels:
+        name: tester
+        version: r2
+    spec:
+      containers:
+      - name: tester
+        image: eu.gcr.io/balmy-cab-106909/transtic-tester:r2
+        ports:
+        - containerPort: 5000
+          name: tester
+
+

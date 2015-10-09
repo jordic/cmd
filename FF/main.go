@@ -2,7 +2,10 @@
 // Just hit FF on a folder... Exec querys ( middle click a word )
 // To get results.
 // Index is stored in RAM.
-// @todo Handle file exclusions as an argument.
+// +todo Handle file exclusions as an argument.
+//	On every folder you can declare a .exclude file, with string patterns for 
+//  discarded files/folders.
+// + Also implemented a history of querys just to save some keystrokes. ( Hit reload )
 // The code is writed quick and dirty... some ugly practices but, works ;)
 package main
 
@@ -29,7 +32,7 @@ var (
 	pwd      string
 	win      *acme.Win
 	Prefixes = []string{".", "env", "cache", "bower", "node", "upload"}
-	Suffixes = []string{".pyc", "env", "cache", ".jpg", ".png"}
+	Suffixes = []string{".pyc", "env", "cache", ".jpg", ".png", ".gif"}
 	Excludes = []string{}
 	Queries  = []string{}
 	Index    *fuzzstr.Index
@@ -116,7 +119,7 @@ func WriteResults(result DocSort) {
 	win.Write("body", buff.Bytes())
 
 	win.Ctl("clean")
-	_ = win.Addr("#0,#0")
+	_ = win.Addr("#0")
 	_ = win.Ctl("dot=addr\n")
 
 }
@@ -146,7 +149,7 @@ func PopulateFileList() {
 		}
 
 		for i := range Excludes {
-			if strings.HasSuffix(name, Excludes[i]) {
+			if strings.HasPrefix(name, Excludes[i]) {
 				if info.IsDir() {
 					return filepath.SkipDir
 				}
