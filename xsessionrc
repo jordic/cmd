@@ -1,0 +1,38 @@
+#!/bin/sh
+
+xset m default
+
+SEARCH='Holtek USB Gaming Mouse'
+
+
+# Map button 9 (top side button) to button 2 (middle button)
+#logitech_mouse_id=$(xinput | grep "Holtek USB Gaming Mouse" | awk {'print substr($7,4,2)'})
+#echo $logitech_mouse_id > ~/temp/logitech_mouse_id
+#xinput set-button-map 12 1 2 3 4 5 6 7 2 2 10 11 12 13 14 15 16
+#xinput set-button-map 13 1 2 3 4 5 6 7 2 2 10 11 12 13 14 15 16
+
+# xinput set-button-map "$MOUSE" 1 2 3 4 5 6 7 2 2 10 11 12 13 14 15 16
+
+
+
+ids=$(xinput --list | awk -v search="$SEARCH" \
+    '$0 ~ search {match($0, /id=[0-9]+/);\
+                  if (RSTART) \
+                    print substr($0, RSTART+3, RLENGTH-3)\
+                 }'\
+     )
+
+for i in $ids
+do
+    xinput set-button-map $i 1 2 3 4 5 6 7 2 2 10 11 12 13 14 15 16
+    #xinput set-prop $i 'Device Accel Constant Deceleration' 2.5
+    #xinput set-prop $i 'Device Accel Velocity Scaling' 1.0
+done
+
+
+#xmodmap -e "keycode 9 = Caps_Lock NoSymbol Caps_Lock"   #this will make Esc to act as Caps Lock
+#xmodmap -e "keycode 66 = Escape NoSymbol Escape"        #this will make Caps Lock to act as Esc
+# /usr/bin/setxkbmap -option "caps:swapescape"
+
+#xrdb ~/.Xresourcess
+xrdb ~/.Xresources
