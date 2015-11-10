@@ -52,6 +52,10 @@ npm() {
   docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp npm $@
 }
 
+karma() {
+  docker run --rm -it -v $(pwd)/:/mnt/ -p 9876:9876 -e UID=$(id -u) -e GID=$(id -g) jordic/gulp karma $@
+}
+
 yo() {
   docker run -it --rm -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp yo $@
 }

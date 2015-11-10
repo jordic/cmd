@@ -227,6 +227,6 @@ source '/home/jordi/google-cloud-sdk/path.bash.inc'
 # The next line enables shell command completion for gcloud.
 source '/home/jordi/google-cloud-sdk/completion.bash.inc'
 
-source '/home/jordi/.bash/functions.sh'
+source '/home/jordi/dotfiles/docfunctions.sh'
 
 
