@@ -81,6 +81,7 @@ build_chrome() {
 
 
 nv() {
+    del_stopped neovim
     docker run -it --rm -v $(pwd)/:/mnt/ \
         -e UID=$(id -u) \
         -e GID=$(id -g) \
