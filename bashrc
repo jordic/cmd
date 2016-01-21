@@ -208,6 +208,10 @@ sql() {
 	mysql -u root --password= $*
 }
 
+ttimer() {
+     termdown 25m --font ogre -c 5 -b
+}
+
 
 # FZF options
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
@@ -228,5 +232,14 @@ source '/home/jordi/google-cloud-sdk/path.bash.inc'
 source '/home/jordi/google-cloud-sdk/completion.bash.inc'
 
 source '/home/jordi/dotfiles/docfunctions.sh'
+source '/home/jordi/dotfiles/kubectl'
+
+
+mouse() {
+    source ~/.xsessionrc
+}
+
+
+
 
 

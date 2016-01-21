@@ -118,6 +118,10 @@ Plug 'benekastah/neomake'
 Plug 't9md/vim-choosewin'
 
 
+Plug 'tpope/vim-vinegar'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'majutsushi/tagbar'
+Plug 'ternjs/tern_for_vim'
 
 call plug#end()
 endif
@@ -151,7 +155,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab smarttab
 set scrolloff=5
-set encoding=utf-8
+" set encoding=utf-8
 set list
 set listchars=tab:\|\ ,
 set virtualedit=block
@@ -233,7 +237,13 @@ if has('gui_running')
   set guifont=Monaco:h14 columns=80 lines=40
   silent! colo seoul256-light
 else
-  silent! colo solarized
+  " silent! colo solarized
+    "set backgournd = light
+    set background=light
+    silent colo lucius
+    LuciusWhite
+    let g:lucius_contrast = 'high'
+    let g:lucius_contrast_bg = 'high'
 endif
 
 " }}}
@@ -1423,7 +1433,7 @@ let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 augroup vimrc
   autocmd!
 
-  au BufWritePost nvimrc,.nvimrc nested if expand('%') !~ 'fugitive' | source % | endif
+  au BufWritePost nvimrc,.nvimrc,init.vim nested if expand('%') !~ 'fugitive' | source % | endif
 
   " IndentLines
   au FileType slim IndentLinesEnable
@@ -1659,8 +1669,21 @@ autocmd! BufWritePost *  Neomake
 
 vmap <C-c>  "+y
 imap <C-v>  <C-r>+
+nmap <C-v>  "*p
+nmap <C-c>  0v$h"*y<esc>
 
+nmap <F5> :TagbarToggle<CR>
 
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>rs <Plug>(go-run-split)
+
+au FileType go nmap <C-t> <Plug>(go-test)
+" au FileType go nmap <C-I> <Plug>(go-impos)
+
+let g:go_fmt_command = "goimports"
+let g:go_term_enabled = 1
+"set statusline += go#jobcontrol#Statusline()
 
 "====================
 " ./.vimrc
