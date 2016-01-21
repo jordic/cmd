@@ -44,26 +44,26 @@ liveserver() {
 }
 
 
-gulp() {
+dgulp() {
     docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp gulp $@
 }
 
-npm() {
+dnpm() {
   docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp npm $@
 }
 
-karma() {
+dkarma() {
   docker run --rm -it -v $(pwd)/:/mnt/ -p 9876:9876 -e UID=$(id -u) -e GID=$(id -g) jordic/gulp karma $@
 }
 
-yo() {
+dyo() {
   docker run -it --rm -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp yo $@
 }
 
 _jshint() {
   docker run --rm -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp jshint $@
 }
-bower() {
+dbower() {
   docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp bower $@
 }
 

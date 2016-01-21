@@ -226,7 +226,11 @@ source '/home/jordi/google-cloud-sdk/path.bash.inc'
 
 # The next line enables shell command completion for gcloud.
 source '/home/jordi/google-cloud-sdk/completion.bash.inc'
-
+source '/home/jordi/dotfiles/kubectl'
 source '/home/jordi/dotfiles/docfunctions.sh'
+
+export IBUS_ENABLE_SYNC_MODE=1
+
+
 
 
