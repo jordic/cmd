@@ -38,7 +38,7 @@ gu() {
     docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp $@
 }
 
-liveserver() {
+dliveserver() {
 
     docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) -p 8080:8080 jordic/gulp live-server
 }
