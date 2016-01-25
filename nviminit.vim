@@ -988,7 +988,7 @@ au FileType go nmap <Leader>s <Plug>(go-implements)
 "/bin/bash: ux: no s'ha trobat l'ordre
 
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = ''
+let g:ctrlp_working_path_mode = 'ra'
 
 " TMUX RUNNER
 
@@ -997,9 +997,9 @@ let g:ctrlp_working_path_mode = ''
 autocmd BufEnter * silent! lcd %:p:h
 
 au FileType go nmap <F4> :!tmux send-keys -t 1.bottom "go test" Enter<cr><cr>
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
+" let g:airline#extensions#tabline#show_close_button = 0
 
 let g:neomake_gotest_maker = {
         \ 'exe': 'go',
@@ -1010,9 +1010,8 @@ let g:neomake_gotest_maker = {
             \ '%E%f:%l:%c:%m,' .
             \ '%E%f:%l:%m,' 
         \ }
-"
-            " \ '%W%f:%l: warning: %m,' .
-            " \ '%E%f:%l:%c:%m,' .
-            " \ '%E%f:%l:%m,' .
-            "  \ '%C%\s%\+%m,' .
-            " \ '%-G#%.%#'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:airline_section_warning = 'neomake'
+
+
+
