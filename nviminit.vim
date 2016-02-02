@@ -4,7 +4,7 @@
 " ============================================================================
 
 let s:darwin = has('mac')
-
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " }}}
 "
 " ============================================================================
@@ -64,7 +64,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'    }
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'mhinz/vim-signify'
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 "
 " Lang
 "Plug 'scrooloose/syntastic'
@@ -84,6 +84,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'jlanzarotta/bufexplorer'
 
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'benekastah/neomake'
 
 
@@ -92,6 +93,10 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'majutsushi/tagbar'
 Plug 'ternjs/tern_for_vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+
+" Plug 'frankier/neovim-colors-solarized-truecolor-only'
+" Plug 'mephux/vim-jsfmt'
 
 
 call plug#end()
@@ -101,6 +106,7 @@ endif
 " ============================================================================
 " BASIC SETTINGS {{{
 " ============================================================================
+
 
 let mapleader      = ' '
 let maplocalleader = ' '
@@ -932,8 +938,10 @@ map gB :bprev<CR>
 " }}}
 
 
-map <leader>c  :copen<cr>
-map <leader>cq :cclose<cr>
+map <A-c>  :copen<cr>
+map <A-b> :cclose<cr>
+map <A-n> :cnext<cr>
+map <A-x> :cprev<cr>
 "
 " jedi completion
 let g:jedi#use_splits_not_buffers = "right"
@@ -956,6 +964,8 @@ let g:neomake_javascript_jshint_maker = {
     \ }
 let g:neomake_javascript_enabled_makers = ['jshint']
 autocmd! BufWritePost *  Neomake
+
+au FileType js nmap <C-i> :call JsBeautify()<cr>
 
 
 vmap <C-c>  "+y
@@ -990,11 +1000,17 @@ au FileType go nmap <Leader>s <Plug>(go-implements)
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 
+map <A-P>   :CtrlPBuffer<cr>
+map <C-p>   :CtrlP<cr>
+
+map <A-j> 10j
+map <A-k> 10k
+
 " TMUX RUNNER
 
 " command! -nargs=1 TmuxRun
 "   \ call system('tmux split-window -d -l 5 '.<q-args>)
-autocmd BufEnter * silent! lcd %:p:h
+" autocmd BufEnter * silent! lcd %:p:h
 
 au FileType go nmap <F4> :!tmux send-keys -t 1.bottom "go test" Enter<cr><cr>
 " let g:airline#extensions#tabline#enabled = 1
@@ -1013,5 +1029,18 @@ let g:neomake_gotest_maker = {
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:airline_section_warning = 'neomake'
 
+
+function! s:fzf_statusline()
+  " Override statusline as you like
+  highlight fzf1 ctermfg=161 ctermbg=251
+  highlight fzf2 ctermfg=23 ctermbg=251
+  highlight fzf3 ctermfg=237 ctermbg=251
+  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+endfunction
+
+autocmd! User FzfStatusLine call <SID>fzf_statusline()
+
+au Filetype js nmap <F2> :call JsBeautify()<cr>
+au Filetype js set shiftwidth=2
 
 
