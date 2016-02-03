@@ -94,6 +94,7 @@ Plug 'majutsushi/tagbar'
 Plug 'ternjs/tern_for_vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'Shougo/deoplete.nvim'
 
 " Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " Plug 'mephux/vim-jsfmt'
@@ -914,9 +915,6 @@ map <leader><left><left> <C-W>h
 map <leader><right><right> <C-W>l
 map <leader><down>  <leader>gc<cr>
 
-" map <silent> <RightMouse> :BufExplorer<cr>
-" imap <silent> <RightMouse> :BufExplorer<cr>
-
 map <leader><up>   :BufExplorer<cr>
 
 set tags=~/.tags
@@ -944,6 +942,8 @@ map <A-c>  :copen<cr>
 map <A-b> :cclose<cr>
 map <A-n> :cnext<cr>
 map <A-x> :cprev<cr>
+map <A-;> :lopen<cr>
+map <A-:> :lclose<cr>
 "
 " jedi completion
 let g:jedi#use_splits_not_buffers = "right"
@@ -1032,6 +1032,14 @@ let g:neomake_gotest_maker = {
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:airline_section_warning = 'neomake'
 
+let g:neomake_gulptest_maker = {
+    \ 'exe': 'gulp',
+    \ 'args': ['test'],
+    \ 'errorformat':
+            \ '%E%m,%Z\ \ \ \ at\ %f:%l'
+    \ }
+
+
 
 function! s:fzf_statusline()
   " Override statusline as you like
@@ -1045,5 +1053,34 @@ autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 au Filetype js nmap <F2> :call JsBeautify()<cr>
 au Filetype js set shiftwidth=2
+
+" Omnicompletion
+
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" omnifuncs
+augroup omnifuncs
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
+
+" tern
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+endif
+
+
 
 
