@@ -914,7 +914,9 @@ map <leader><left><left> <C-W>h
 map <leader><right><right> <C-W>l
 map <leader><down>  <leader>gc<cr>
 
-map <silent> <RightMouse> :BufExplorer<cr>
+" map <silent> <RightMouse> :BufExplorer<cr>
+" imap <silent> <RightMouse> :BufExplorer<cr>
+
 map <leader><up>   :BufExplorer<cr>
 
 set tags=~/.tags
@@ -957,7 +959,7 @@ imap ã {% %}<Esc>hhi
 imap ö {{ }}<Esc>hhi
 let g:airline_powerline_fonts = 1
 
-" neomake js 
+" neomake js
 let g:neomake_javascript_jshint_maker = {
     \ 'args': ['--verbose'],
     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
@@ -1012,6 +1014,7 @@ map <A-k> 10k
 "   \ call system('tmux split-window -d -l 5 '.<q-args>)
 " autocmd BufEnter * silent! lcd %:p:h
 
+au FileType js nmap <F4> :!tmux send-keys -t 1.bottom "gulp test" Enter<cr><cr>
 au FileType go nmap <F4> :!tmux send-keys -t 1.bottom "go test" Enter<cr><cr>
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -1024,7 +1027,7 @@ let g:neomake_gotest_maker = {
         \ 'append_file': 0,
         \ 'errorformat':
             \ '%E%f:%l:%c:%m,' .
-            \ '%E%f:%l:%m,' 
+            \ '%E%f:%l:%m,'
         \ }
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:airline_section_warning = 'neomake'
