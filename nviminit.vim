@@ -94,6 +94,7 @@ Plug 'majutsushi/tagbar'
 Plug 'ternjs/tern_for_vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'Shougo/deoplete.nvim'
 
 " Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " Plug 'mephux/vim-jsfmt'
@@ -914,7 +915,7 @@ map <leader><left><left> <C-W>h
 map <leader><right><right> <C-W>l
 map <leader><down>  <leader>gc<cr>
 
-map <silent> <RightMouse> :BufExplorer<cr>
+" map <silent> <RightMouse> :BufExplorer<cr>
 map <leader><up>   :BufExplorer<cr>
 
 set tags=~/.tags
@@ -942,6 +943,8 @@ map <A-c>  :copen<cr>
 map <A-b> :cclose<cr>
 map <A-n> :cnext<cr>
 map <A-x> :cprev<cr>
+map <A-;> :lopen<cr>
+map <A-:> :lclose<cr>
 "
 " jedi completion
 let g:jedi#use_splits_not_buffers = "right"
@@ -1028,6 +1031,14 @@ let g:neomake_gotest_maker = {
         \ }
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:airline_section_warning = 'neomake'
+
+let g:neomake_gulptest_maker = {
+    \ 'exe': 'gulp',
+    \ 'args': ['test'],
+    \ 'errorformat':
+            \ '%E%m,%Z\ \ \ \ at\ %f:%l' 
+    \ }
+
 
 
 function! s:fzf_statusline()
