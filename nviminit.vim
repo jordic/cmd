@@ -1032,13 +1032,13 @@ let g:neomake_gotest_maker = {
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:airline_section_warning = 'neomake'
 
+
 let g:neomake_gulptest_maker = {
     \ 'exe': 'gulp',
     \ 'args': ['test'],
-    \ 'errorformat':
-            \ '%E%m,%Z\ \ \ \ at\ %f:%l'
+    \ 'errorformat': '%Z%*[\ ]at\ %f:%l,%Z%*[\ ]%m (%f:%l),%*[\ ]%m (%f:%l)'
     \ }
-
+" ,%Z%*[\ ]at\ %f:%l:%c,%Z%*[\ ]%m (%f:%l:%c),%*[\ ]%m (%f:%l:%c)
 
 
 function! s:fzf_statusline()
