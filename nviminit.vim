@@ -1036,7 +1036,7 @@ let g:airline_section_warning = 'neomake'
 let g:neomake_gulptest_maker = {
     \ 'exe': 'gulp',
     \ 'args': ['test'],
-    \ 'errorformat': '%Z%*[\ ]at\ %f:%l,%Z%*[\ ]%m (%f:%l),%*[\ ]%m (%f:%l)'
+    \ 'errorformat': '%m%*[\ ]at\ %f:%l'
     \ }
 " ,%Z%*[\ ]at\ %f:%l:%c,%Z%*[\ ]%m (%f:%l:%c),%*[\ ]%m (%f:%l:%c)
 
