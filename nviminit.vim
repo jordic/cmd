@@ -73,7 +73,7 @@ Plug 'fatih/vim-go'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'guileen/vim-node-dict'
-Plug 'plasticboy/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
 Plug 'honza/dockerfile.vim'
 " Python
 Plug 'klen/python-mode'
@@ -95,7 +95,7 @@ Plug 'ternjs/tern_for_vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Shougo/deoplete.nvim'
-
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 " Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " Plug 'mephux/vim-jsfmt'
 
@@ -748,7 +748,7 @@ augroup vimrc
   au BufNewFile,BufRead Dockerfile*         set filetype=dockerfile
 
   " Included syntax
-  au FileType,ColorScheme * call <SID>file_type_handler()
+  "au FileType,ColorScheme * call <SID>file_type_handler()
 
   " Clojure
   au FileType clojure xnoremap <Leader><Leader> :Eval<CR>
