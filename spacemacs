@@ -37,6 +37,7 @@ values."
      syntax-checking
      go
      javascript
+     html
      (python :variables python-enable-yapf-format-on-save t)
      markdown
      django
