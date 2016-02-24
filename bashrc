@@ -240,7 +240,9 @@ mouse() {
 }
 
 
-
+my() {
+ mysql -u root -h mysql $*   
+}
 
 export IBUS_ENABLE_SYNC_MODE=1
 
