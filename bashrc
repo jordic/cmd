@@ -129,11 +129,11 @@ export PAGER=less
 
 #SOME ALIAS
 alias clean_pyc='find . -name "*.pyc" -exec rm -rf {} \;'
-# hosts... obsolete this config should go to .ssh/config 
+# hosts... obsolete this config should go to .ssh/config
 alias diafarm='ssh -t tempo ssh tempo@diafarm.es'
 
 ro() {
-    robo $@  -c ~/robo.yml 
+    robo $@  -c ~/robo.yml
 }
 
 # tmux functions
@@ -234,6 +234,9 @@ source '/home/jordi/dotfiles/kubectl'
 source '/home/jordi/dotfiles/docfunctions.sh'
 source '/home/jordi/dotfiles/kubectl'
 
+# Source keys
+source '/home/jordi/.keys'
+
 
 mouse() {
     source ~/.xsessionrc
@@ -241,7 +244,11 @@ mouse() {
 
 
 my() {
- mysql -u root -h mysql $*   
+ mysql -u root -h mysql $*
+}
+
+gitsub() {
+    git submodule add ssh://git@dev.tmpo.io/diffusion/23/os.git    
 }
 
 export IBUS_ENABLE_SYNC_MODE=1

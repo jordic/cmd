@@ -1,4 +1,7 @@
 
+
+
+
 del_stopped(){
     local name=$1
     local state=$(docker inspect --format "{{.State.Running}}" $name 2>/dev/null)
@@ -87,4 +90,20 @@ nv() {
         -e GID=$(id -g) \
         --name neovim \
         jordic/neovim
+}
+
+
+docker_net() {
+    CID=$(docker ps -q --filter="name=${1}")
+    echo -e "Container ID: $CID"
+    docker inspect --format='{{ .NetworkSettings.Networks.tempo.IPAddress }}' $CID
+}
+
+sql_dump_docker() {
+    CMD="mysqldump -h mysql -u tempo -p${DB_PASS} ${2}"
+    ssh -C $1 "docker exec mysql ${CMD}"
+}
+
+sql_dump() {
+    ssh -C $1 "mysqldump -u tempo -p${DB_PASS} ${2}"
 }
