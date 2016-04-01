@@ -230,7 +230,6 @@ source '/home/jordi/google-cloud-sdk/path.bash.inc'
 
 # The next line enables shell command completion for gcloud.
 source '/home/jordi/google-cloud-sdk/completion.bash.inc'
-source '/home/jordi/dotfiles/kubectl'
 source '/home/jordi/dotfiles/docfunctions.sh'
 source '/home/jordi/dotfiles/kubectl'
 
@@ -248,8 +247,10 @@ my() {
 }
 
 gitsub() {
-    git submodule add ssh://git@dev.tmpo.io/diffusion/23/os.git    
+    git submodule add ssh://git@dev.tmpo.io/diffusion/23/os.git
 }
+
+source '/home/jordi/os/_autocomplete.sh'
 
 export IBUS_ENABLE_SYNC_MODE=1
 
