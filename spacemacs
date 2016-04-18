@@ -24,32 +24,43 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     ibuffer
+     better-defaults
      emacs-lisp
+     ansible
      git
      org
-     ;; markdown
+     php
+     markdown
      ;; org
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
-     spell-checking
+     (spell-checking :variables
+             spell-checking-enable-by-default nil)
      syntax-checking
      go
      javascript
-     html
-     (python :variables python-enable-yapf-format-on-save t)
+     sql
+     python
      markdown
      django
+     html
      ;; version-control
      )
-   ;; List of additional packages that will be installed without being
+   ;; List of additional pacages that will be installed witwithouthout being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      ag
+                                      editorconfig
+                                      )
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(
+      ;; smartparens
+    )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -80,7 +91,7 @@ values."
    ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
    ;; unchanged. (default 'vim)
-   dotspacemacs-editing-style 'hybrid
+   dotspacemacs-editing-style 'emacs
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -123,7 +134,7 @@ values."
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
-   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-emacs-leader-key "M-SPC"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
@@ -177,7 +188,7 @@ values."
    dotspacemacs-enable-paste-micro-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.2
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -246,8 +257,7 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
-  (when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+  (add-to-list 'auto-mode-alist '("\\.scss\\'"  . web-mode))
   )
 
 (defun dotspacemacs/user-config ()
@@ -256,6 +266,18 @@ This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (global-linum-mode)
   (setq gofmt-command "goimports")
+  (setq js2-basic-offset 2)
+  (define-coding-system-alias 'UTF-8 'utf-8)
+  (setq-default cursor-type 'bar) 
+  (global-set-key (kbd "C-x <up>") 'windmove-up)
+  (global-set-key (kbd "C-x <down>") 'windmove-down)
+  (global-set-key (kbd "C-x <left>") 'windmove-left)
+  (global-set-key (kbd "C-x <right>") 'windmove-right)
+  (global-set-key (kbd "<f5>") 'helm-projectile-switch-project)
+  (global-set-key (kbd "<f6>") 'helm-projectile-find-file)
+  (global-set-key (kbd "<f7>") 'helm-show-kill-ring)
+  (global-set-key (kbd "<f8>") 'spacemacs/default-pop-shell)
+  (load-file "~/.emacs.d/private/local/acme-mouse.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -276,6 +298,6 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 94 :width normal))))
+ '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 95 :width normal))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))

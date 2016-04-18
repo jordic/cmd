@@ -107,3 +107,9 @@ sql_dump_docker() {
 sql_dump() {
     ssh -C $1 "mysqldump -u tempo -p${DB_PASS} ${2}"
 }
+
+tcookie() {
+    cookiecutter https://github.com/tmpo-io/djangocms_base 
+} 
+
+
