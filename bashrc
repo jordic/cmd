@@ -250,8 +250,12 @@ gitsub() {
     git submodule add ssh://git@dev.tmpo.io/diffusion/23/os.git
 }
 
-source '/home/jordi/os/_autocomplete.sh'
+mount_laura() {
+    sshfs -o idmap=user laura:/Users/tempo/ ~/laura
+}
 
+source '/home/jordi/os/_autocomplete.sh'
+source '/home/jordi/.keys.sh'
 export IBUS_ENABLE_SYNC_MODE=1
 
 

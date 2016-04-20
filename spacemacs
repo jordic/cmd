@@ -1,4 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
+
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -36,9 +37,9 @@ values."
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
-     (spell-checking :variables
+     spell-checking
+     (syntax-checking :variables
              spell-checking-enable-by-default nil)
-     syntax-checking
      go
      javascript
      sql
@@ -48,7 +49,7 @@ values."
      html
      ;; version-control
      )
-   ;; List of additional pacages that will be installed witwithouthout being
+   ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
@@ -268,7 +269,8 @@ layers configuration. You are free to put any user code."
   (setq gofmt-command "goimports")
   (setq js2-basic-offset 2)
   (define-coding-system-alias 'UTF-8 'utf-8)
-  (setq-default cursor-type 'bar) 
+  (setq-default cursor-type 'bar)
+  (delete-selection-mode 1)
   (global-set-key (kbd "C-x <up>") 'windmove-up)
   (global-set-key (kbd "C-x <down>") 'windmove-down)
   (global-set-key (kbd "C-x <left>") 'windmove-left)
@@ -277,7 +279,11 @@ layers configuration. You are free to put any user code."
   (global-set-key (kbd "<f6>") 'helm-projectile-find-file)
   (global-set-key (kbd "<f7>") 'helm-show-kill-ring)
   (global-set-key (kbd "<f8>") 'spacemacs/default-pop-shell)
-  (load-file "~/.emacs.d/private/local/acme-mouse.el")
+  (global-set-key (kbd "C-c C-f") 'helm-do-ag)
+  (global-set-key (kbd "C-c C-d") 'helm-projectile-find-file)
+  (add-to-list 'load-path "~/.emacs.d/private/local/")
+  (load "acme-mouse")
+  (delete-selection-mode 1)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -298,6 +304,7 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 95 :width normal))))
+ '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 90 :width normal))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(css-selector ((t (:foreground "blue" :weight normal)))))
