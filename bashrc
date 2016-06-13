@@ -254,6 +254,10 @@ mount_laura() {
     sshfs -o idmap=user laura:/Users/tempo/ ~/laura
 }
 
+headers() {
+    curl -v -D - "$1" -o /dev/null
+}
+
 source '/home/jordi/os/_autocomplete.sh'
 source '/home/jordi/.keys.sh'
 export IBUS_ENABLE_SYNC_MODE=1

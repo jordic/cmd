@@ -16,6 +16,11 @@ mysql_server_install() {
     docker run --name mysql -v /home/jordi/mysql:/var/lib/mysql -p 3306:3306 -d mysql:5.6
 }
 
+mysql_ram_install() {
+  sudo cp -R /home/jordi/mysql /dev/shm/mysql
+  docker run --name mysql -v /dev/shm/mysql:/var/lib/mysql -p 3306:3306 -d mysql:5.6
+}
+
 mysql_start(){
     echo "Stargint mysql container"
     docker start mysql

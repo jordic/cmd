@@ -1,0 +1,46 @@
+# See http://docs.pylint.org/features.html
+
+[GENERAL]
+# Specify a configuration file.
+#XXX: Not working for me (tried full path).  Had to add C0325 to disable.
+#rcfile=pylintrc
+
+# List of plugins (as comma separated values of python modules names) to load,
+# usually to register additional checkers.
+# See https://github.com/landscapeio/pylint-django
+load-plugins=pylint_django
+
+
+[MESSAGES CONTROL]
+
+# Disable the message, report, category or checker with the given id(s). You
+# can give multiple identifier separated by commas (,).
+# superfluous-parens (C0325)
+# no-member (E1101)
+# too-many-ancestors (R0901)
+# too-few-public-methods (R0903)
+disable=C0325,E1101,R0901,R0903,C0111,
+
+
+[DESIGN]
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=40
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=1
+
+
+[TYPECHECK]
+
+# List of members which are set dynamically and missed by pylint inference
+# system, and so shouldn't trigger E0201 when accessed.
+generated-members=REQUEST,acl_users,aq_parent,DoesNotExist,objects,request
+
+
+[BASIC]
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,j,k,ex,Run,_,urlpatterns,pk
+# Regular expression which should only match function or class names that do not
+# require a docstring.
+no-docstring-rgx=__.*__|Meta

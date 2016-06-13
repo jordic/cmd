@@ -1,5 +1,5 @@
-xterm*faceName: Menlo\ for\ Powerline
-xterm*faceSize: 8
+xterm*faceName: Ubuntu\ mono
+xterm*faceSize: 10
 
 xterm*loginshell: true
 xterm*savelines: 16384
