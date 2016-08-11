@@ -290,8 +290,6 @@ layers configuration. You are free to put any user code."
   (global-set-key (kbd "<f8>") 'spacemacs/default-pop-shell)
   (global-set-key (kbd "C-c C-f") 'helm-do-ag)
   (global-set-key (kbd "C-c C-d") 'helm-projectile-find-file)
-  (add-to-list 'load-path "~/.emacs.d/private/local/")
-  (load "acme-mouse")
   (delete-selection-mode 1)
   )
 
