@@ -118,3 +118,28 @@ tcookie() {
 } 
 
 
+wordpress() {
+  
+  if [ -z "$1" ]
+  then
+    name=wptest
+  else
+    name=$1
+  fi
+
+  docker rm $name
+  docker run --name $name --net tempo \
+    -e WORDPRESS_DB_HOST=mysql \
+    -e WORDPRESS_DB_USER=wp2 \
+    -e WORDPRESS_DB_PASSWORD=wp \
+    -e WORDPRESS_DB_NAME=$name \
+    -p 8080:80 -v $(pwd)/$name:/var/www/html \
+    -d wordpress
+}
+
+
+
+
+
+
+
