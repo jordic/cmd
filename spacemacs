@@ -290,8 +290,6 @@ layers configuration. You are free to put any user code."
   (global-set-key (kbd "<f8>") 'spacemacs/default-pop-shell)
   (global-set-key (kbd "C-c C-f") 'helm-do-ag)
   (global-set-key (kbd "C-c C-d") 'helm-projectile-find-file)
-  (add-to-list 'load-path "~/.emacs.d/private/local/")
-  (load "acme-mouse")
   (delete-selection-mode 1)
   )
 
@@ -304,7 +302,8 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(column-number-mode t)
- '(menu-bar-mode nil)
+ '(menu-bar-mode t)
+ '(org-startup-truncated nil)
  '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
@@ -317,7 +316,7 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 95 :width normal))))
+ '(default ((t (:family "Menlo" :foundry "bitstream" :slant normal :weight normal :height 91 :width normal))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(css-selector ((t (:foreground "blue" :weight normal)))))
