@@ -1,0 +1,17 @@
+
+
+i3-msg exec 'gnome-terminal -x sh -c htop'
+
+ps aux
+
+ii docker stats nvim htop
+
+ii nvim /home/jordi/scratch
+/usr/bin/i3-msg exec "gnome-terminal -x sh -c $@"
+'''
+.Xmodmap
+keycode 108 = Multi_key
+
+.xinitrc
+xrandr --dpi 96
+exec i3
