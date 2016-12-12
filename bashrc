@@ -265,3 +265,6 @@ export IBUS_ENABLE_SYNC_MODE=1
 
 
 
+
+export NVM_DIR="/home/jordi/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
