@@ -41,6 +41,12 @@ redis_start() {
     docker start redis
 }
 
+samba_create() {
+    docker run -it --name samba -p 139:139 -p 445:445 -p 138:138/udp -p 445:445/udp \
+        -e SMB_USER='jordi' -e SMB_PASS='tempo' -v /home/jordi:/home -d appcontainers/samba
+}
+
+
 # gulp and node
 gu() {
     docker run --rm -it -v $(pwd)/:/mnt/ -e UID=$(id -u) -e GID=$(id -g) jordic/gulp $@
