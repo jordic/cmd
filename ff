@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find . -ipath "*$1*"  \! -name '*.pyc' \! -name '.svn'
