@@ -88,9 +88,10 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
 alias show_keyboard='/opt/plan9/bin/png ~/Escriptori/keyboard-103P.png &'
-
+alias update="sudo apt update"
+alias lsupgrade="sudo apt list --upgradable"
+alias upgrade="sudo apt upgrade"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -130,7 +131,7 @@ export PAGER=less
 #SOME ALIAS
 alias clean_pyc='find . -name "*.pyc" -exec rm -rf {} \;'
 # hosts... obsolete this config should go to .ssh/config
-alias diafarm='ssh -t tempo ssh tempo@diafarm.es'
+alias diafarm='ssh -t dev ssh tempo@diafarm.es'
 
 ro() {
     robo $@  -c ~/robo.yml
@@ -256,6 +257,10 @@ mount_laura() {
 
 headers() {
     curl -v -D - "$1" -o /dev/null
+}
+
+cr() {
+  code -r $@
 }
 
 source '/home/jordi/os/_autocomplete.sh'
