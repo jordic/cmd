@@ -19,7 +19,7 @@ load-plugins=pylint_django
 # no-member (E1101)
 # too-many-ancestors (R0901)
 # too-few-public-methods (R0903)
-disable=C0325,E1101,R0901,R0903,C0111,
+disable=C0325,E1101,R0901,R0903,C0111,C0103
 
 
 [DESIGN]
@@ -40,7 +40,7 @@ generated-members=REQUEST,acl_users,aq_parent,DoesNotExist,objects,request
 
 [BASIC]
 # Good variable names which should always be accepted, separated by a comma
-good-names=i,j,k,ex,Run,_,urlpatterns,pk
+good-names=i,j,k,ex,Run,_,urlpatterns,pk,s,r,c
 # Regular expression which should only match function or class names that do not
 # require a docstring.
 no-docstring-rgx=__.*__|Meta

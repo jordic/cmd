@@ -144,7 +144,12 @@ wordpress() {
 }
 
 
-
+mutt_install() {
+   docker run -it -v /etc/localtime:/etc/localtime:ro \
+	-e GMAIL=jordic@gmail.com -e GMAIL_NAME="Jordi Collell" \
+	-e GMAIL_PASS="dqyp kzqr wzqd dxjz" -e GAMIL_FROM=jordic@gmail.com \
+	--name mutt jess/mutt
+}
 
 
 

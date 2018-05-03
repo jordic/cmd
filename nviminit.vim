@@ -96,6 +96,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'brooth/far.vim'
 " Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " Plug 'mephux/vim-jsfmt'
 
@@ -439,6 +440,8 @@ function! s:autosave(enable)
       autocmd TextChanged,InsertLeave <buffer>
             \  if empty(&buftype) && !empty(bufname(''))
             \|   silent! update
+indent_style = space
+indent_size = 2
             \| endif
     endif
   augroup END
