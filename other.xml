@@ -1,0 +1,111 @@
+<application>
+  <component name="CvsApplicationLevelConfiguration">
+    <option name="EXT_CONFIGURATION">
+      <value>
+        <option name="CVS_RSH" value="ssh" />
+        <option name="PRIVATE_KEY_FILE" value="" />
+        <option name="ADDITIONAL_PARAMETERS" value="" />
+        <option name="USE_INTERNAL_SSH_IMPLEMENTATION" value="false" />
+      </value>
+    </option>
+    <option name="SSH_CONFIGURATION">
+      <value SSH_TYPE="SSH1, SSH2">
+        <option name="USE_PPK" value="false" />
+        <option name="PATH_TO_PPK" value="" />
+      </value>
+    </option>
+    <option name="LOCAL_CONFIGURATION">
+      <value>
+        <option name="PATH_TO_CVS_CLIENT" value="cvs" />
+      </value>
+    </option>
+    <option name="PROXY_SETTINGS">
+      <value>
+        <option name="USE_PROXY" value="false" />
+        <option name="PROXY_HOST" value="" />
+        <option name="PROXY_PORT" value="8080" />
+        <option name="TYPE" value="0" />
+        <option name="LOGIN" value="" />
+        <option name="PASSWORD" value="" />
+      </value>
+    </option>
+    <option name="SSH_FOR_EXT_CONFIGURATION">
+      <value SSH_TYPE="SSH1, SSH2">
+        <option name="USE_PPK" value="false" />
+        <option name="PATH_TO_PPK" value="" />
+      </value>
+    </option>
+    <option name="PATH_TO_PASSWORD_FILE" />
+    <option name="TIMEOUT" value="10" />
+    <option name="MAKE_CHECKED_OUT_FILES_READONLY" value="false" />
+    <option name="CHECKOUT_PRUNE_EMPTY_DIRECTORIES" value="true" />
+    <option name="CHECKOUT_KEYWORD_SUBSTITUTION" />
+    <option name="SHOW_RESTORE_DIRECTORIES_CONFIRMATION" value="true" />
+    <option name="ENCODING" value="Default" />
+    <option name="USE_GZIP" value="false" />
+    <option name="DO_OUTPUT" value="false" />
+    <option name="SEND_ENVIRONMENT_VARIABLES_TO_SERVER" value="false" />
+    <option name="SHOW_PATH" value="true" />
+  </component>
+  <component name="NodeJsLocalInterpreters">
+    <local-interpreter path="/usr/bin/node">
+      <version-cache version="4.2.6" last-modified="1463787647000" />
+    </local-interpreter>
+    <local-interpreter path="$USER_HOME$/.nvm/versions/node/v7.10.0/bin/node">
+      <version-cache version="7.10.0" last-modified="1493776108000" />
+    </local-interpreter>
+    <local-interpreter path="$USER_HOME$/.nvm/versions/node/v6.9.4/bin/node">
+      <version-cache version="6.9.4" last-modified="1483649435000" />
+    </local-interpreter>
+    <local-interpreter path="$USER_HOME$/.nvm/versions/node/v6.7.0/bin/node">
+      <version-cache version="6.7.0" last-modified="1475002666000" />
+    </local-interpreter>
+    <local-interpreter path="$USER_HOME$/.nvm/versions/node/v6.6.0/bin/node">
+      <version-cache version="6.6.0" last-modified="1473874079000" />
+    </local-interpreter>
+    <local-interpreter path="$USER_HOME$/.nvm/versions/node/v4.5.0/bin/node">
+      <version-cache version="4.5.0" last-modified="1471359129000" />
+    </local-interpreter>
+  </component>
+  <component name="PyTestFrameworkService">
+    <option name="SDK_TO_PYTEST">
+      <map>
+        <entry key="$USER_HOME$/Documents/djvinissimus/env2/bin/python3" value="false" />
+        <entry key="$USER_HOME$/Documents/edhack/env/bin/python3.5" value="false" />
+        <entry key="$USER_HOME$/Documents/guillotina/bin/python3.6" value="true" />
+        <entry key="$USER_HOME$/Documents/transtic/env/bin/python" value="true" />
+        <entry key="$USER_HOME$/Documents/vinissimusvol/zdev/env/bin/python" value="false" />
+        <entry key="$USER_HOME$/Documents/zope/zdev/env/bin/python2" value="true" />
+        <entry key="$USER_HOME$/tmp/guillo_twitt/bin/python3.6" value="true" />
+      </map>
+    </option>
+    <option name="SDK_TO_NOSETEST">
+      <map>
+        <entry key="$USER_HOME$/Documents/djvinissimus/env2/bin/python3" value="false" />
+        <entry key="$USER_HOME$/Documents/edhack/env/bin/python3.5" value="false" />
+        <entry key="$USER_HOME$/Documents/guillotina/bin/python3.6" value="false" />
+        <entry key="$USER_HOME$/Documents/transtic/env/bin/python" value="false" />
+        <entry key="$USER_HOME$/Documents/vinissimusvol/zdev/env/bin/python" value="false" />
+        <entry key="$USER_HOME$/Documents/zope/zdev/env/bin/python2" value="false" />
+        <entry key="$USER_HOME$/tmp/guillo_twitt/bin/python3.6" value="false" />
+      </map>
+    </option>
+    <option name="SDK_TO_TRIALTEST">
+      <map>
+        <entry key="$USER_HOME$/Documents/edhack/env/bin/python3.5" value="false" />
+        <entry key="$USER_HOME$/Documents/guillotina/bin/python3.6" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="a.a.a.a.a.G">
+    <pattern>*</pattern>
+    <pattern>home*</pattern>
+    <pattern>promos*</pattern>
+    <pattern>pr:masar13</pattern>
+  </component>
+  <component name="a.a.a.a.a.T">
+    <servers>
+      <general label="127.0.0.1" host="127.0.0.1" port="6379" password="" timestamp="1490363297694" />
+    </servers>
+  </component>
+</application>

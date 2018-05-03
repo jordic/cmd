@@ -1,0 +1,26 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <ignoreFiles list="*$py.class;*.hprof;*.pyc;*.pyo;*.rbc;*.yarb;*~;.DS_Store;.git;.hg;.svn;CVS;__pycache__;_svn;vssver.scc;vssver2.scc;" />
+    <extensionMap>
+      <mapping pattern="*_html" type="Chameleon" />
+      <mapping pattern="*site_templates*" type="Chameleon" />
+      <mapping pattern="bodegas" type="PLAIN_TEXT" />
+      <mapping pattern="params" type="PLAIN_TEXT" />
+      <mapping pattern="manageSuscripcionBoletin" type="PLAIN_TEXT" />
+      <mapping pattern="solr_update_index" type="PLAIN_TEXT" />
+      <mapping pattern=".bootstraprc" type="PLAIN_TEXT" />
+      <mapping pattern="start" type="PLAIN_TEXT" />
+      <mapping pattern="imgcompress" type="PLAIN_TEXT" />
+      <mapping pattern="celeryd" type="PLAIN_TEXT" />
+      <mapping pattern="botella_s_id" type="PLAIN_TEXT" />
+      <mapping ext="sxw" type="PLAIN_TEXT" />
+      <mapping ext="zexp" type="PLAIN_TEXT" />
+      <mapping pattern="ranking" type="Python" />
+      <mapping pattern="pedidos_tienda_html" type="XHTML" />
+      <mapping pattern="listado_all_paises_dos" type="XML" />
+      <mapping pattern="views" type="XML" />
+      <mapping ext="zcml" type="XML" />
+      <mapping pattern="start.sh" type="Bash" />
+    </extensionMap>
+  </component>
+</application>
